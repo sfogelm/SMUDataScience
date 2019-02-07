@@ -1,0 +1,104 @@
+---
+title: "Homework5"
+author: "Spencer Fogelman"
+date: "2/4/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Question 1a
+```{r}
+df = read.table('/Users/spencerfogelman/Downloads/HW5_2_2/yob2016.txt', sep = ';',
+                header = FALSE)
+names(df) = c('Name', 'Gender', 'Count')
+head(df)
+```
+
+Question 1b
+
+```{r}
+summary(df)
+str(df)
+```
+
+Question 1c
+
+```{r}
+first_names = df$Name
+name = grep('yyy$', first_names, value = TRUE)
+name
+```
+
+Question 1d
+
+```{r}
+index = grep('yyy$', first_names)
+y2016 = df[-1 * index,]
+str(y2016)
+```
+
+Question 2a
+
+```{r}
+y2015 = read.table('/Users/spencerfogelman/Downloads/HW5_2_2/yob2015.txt', sep=',',
+                   header=FALSE)
+names(y2015) =  c('Name', 'Gender', 'Count')
+head(y2015)
+```
+
+Question 2b
+
+```{r}
+tail(y2015, 10)
+```
+
+It is interesting that all of the last 10 names appear exactly 5 times.
+
+Question 2c
+
+```{r}
+final = merge(x=y2016, y=y2015, by.x = 'Name', by.y = 'Name', all=FALSE, suffixes = c('2016', '2015'),no.dups=TRUE)
+head(final)
+any(is.na(final))
+```
+
+Question 3a
+
+```{r}
+final$Total = final$Count2016 + final$Count2015
+head(final)
+paste('Number of people with popular names:', sum(final$Total))
+```
+
+
+Question 3b
+
+```{r}
+library(dplyr)
+arrange(final, desc(Total)) %>% head(10)
+```
+
+
+Question 3c
+
+```{r}
+final  %>% filter(Gender2015 == 'F') %>% arrange(desc(Total)) %>% head(10)
+
+```
+
+
+Question 3d
+
+```{r}
+girls_df = final  %>% filter(Gender2015 == 'F') %>% arrange(desc(Total)) %>% head(10)
+girls_df = girls_df[, c('Name', 'Total')]
+head(girls_df)
+write.csv(girls_df, 'GirlsNames.csv')
+```
+
+Question 4d
+
+

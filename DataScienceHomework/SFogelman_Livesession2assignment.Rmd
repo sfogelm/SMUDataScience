@@ -1,0 +1,67 @@
+---
+title: "HW2"
+author: "Spencer Fogelman"
+date: "1/14/2019"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Question 1
+##What is a basic workflow for reproducible research?
+### The basic workflow of reproducible research is:
+####data gathering
+####data analysis
+####results presentation
+
+##What are five practical tips for making research reproducible?
+### Five practical tips for making research reproducible are:
+####Document everything.
+####Everything is a text file.
+####All files should be human readable.
+####Explicitly tie your files together.
+####Have a plan to organize, store, and make your files available.
+
+##Give an example of how you might implement each tip.
+###Tip 1: Use the R command 'sessionInfo()' to record your R version, computer type and version, and package type and version.
+###Tip 2: If size permits, store information in a text file. These include .txt files and .csv files. Other file formats change regularly and may not be compatible with future versions of programs. They are also easy to search and manipulate, and can be used easily by Git. 
+###Tip 3: Comment frequently on your code. Write a comment before a block of code describing what the code does, and comment on any line of code that is ambiguous. Also include a file header with a description of what the file does, the date it was last updated, and the name of the file's creator and any contributor. You can also use a style guide, such as that provided by the formatR package. You can also exercise literate programming by including key code with figures and adding an appendix that explains the code.
+###Tip 4: Use tie commands to explicity link files together. These commands instruct the computer to use information from another file.
+###Tip 5: Break your operations into discrete parts and then link the files together. This will make it easier for you and others to find information and find errors. You can also organzie them on Dropbox and Github.
+
+##Which one of these do you think will be the most difficult?
+### I think that the last point will definitely be the most difficult. When working on a project it will be very tempting to just use one big file because for you that will make the most sense. However, breaking up your files into something other people will be able to find will require planning after the coding is done. It is not something you can really do as you are coding like many of the other points.
+
+#Question 2
+
+## The following question is about making scatterplots of the airquality dataset.
+```{r}
+plot(x=airquality$Month, y=airquality$Temp,
+     main='Temperature by Month', xlab='Month', ylab='Temperature')
+
+```
+
+```{r}
+plot(x=airquality$Temp, y=airquality$Ozone,
+     main='Temperature vs Ozone', xlab='Temperature', ylab='Ozone')
+```
+
+#Question 3
+
+## The following question is about making scatterplots of the pressure dataset.
+```{r pressure_plot, echo=FALSE}
+plot(x = pressure$pressure, y= pressure$temperature,
+     xlab='Pressure', ylab='Pressure', main='Temperature vs Pressure')
+```
+
+##Now flip it.
+
+```{r pressure_plot2, echo=FALSE}
+plot(x= pressure$temperature, y=pressure$pressure,
+     xlab='Temperature', ylab='Pressure', main='Pressure vs Temperature')
+```

@@ -1,0 +1,99 @@
+---
+title: "Data Science Homework 4"
+author: "Spencer Fogelman"
+date: "1/30/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Question1
+
+```{r}
+library(rvest)
+library(dplyr)
+
+url = 'https://www.imdb.com/title/tt1201607/fullcredits?ref_=tt_ql_1'
+html_code <- read_html(url)
+actor_descr = html_code %>% html_node('table.cast_list') %>% html_nodes('img') %>%
+  html_attrs()
+
+actor_names = c()
+
+for (i in 1:149){
+  name = actor_descr[[i]][3]
+  actor_names[i] = name
+}
+
+
+character_names = html_code %>% html_node('table.cast_list') %>% 
+  html_nodes('td.character') %>%                  
+  html_text() %>%                       
+  gsub("\\s{2,}", "", .)
+
+movie_df = data.frame(actor_names, character_names)
+
+names(movie_df) = c('Actors', 'Characters')
+
+surnames = c()
+for(i in 1: 149){
+  last = strsplit(actor_names[i], ' ')[[1]] %>% tail(n=1)
+  surnames[i] = last
+}
+
+firstnames = c()
+for(i in 1:149){
+  names = strsplit(actor_names[i], ' ')[[1]]
+  if (length(names) == 2){
+    firstnames[i] = names[1]
+  }else{
+    firstnames[i] = paste(names[1], names[2])
+  }
+  
+}
+  
+movie_df2 = data.frame(firstnames, surnames, character_names)
+names(movie_df2) = c('FirstName', 'Surname', 'Character')
+head(movie_df2, 10)
+```
+
+Question 2
+
+```{r}
+url2 = 'http://www.espn.com/nba/team/stats/_/name/sa/san-antonio-spurs'
+html_code2 <- read_html(url2)
+shootingtables = html_code2 %>% html_nodes('table.tablehead') %>% html_table()
+names = shootingtables[[2]][2,]
+shooting_df = shootingtables[[2]][c(-1,-2, -18),]
+names(shooting_df) = names
+rownames(shooting_df) = NULL
+player_pos = shooting_df[,'PLAYER']
+player_name = c()
+player_position = c()
+
+for(i in 1:15){
+  x = player_pos[i]
+  player_name[i] = strsplit(player_pos[i], ',')[[1]][1]
+  player_position[i] = strsplit(player_pos[i], ',')[[1]][2]
+}
+
+shooting_df = shooting_df[,c(-1)]
+shooting_df_new = cbind(player_name, player_position, shooting_df)
+
+
+for(i in 3:16){
+  shooting_df_new[,i] = as.numeric(shooting_df_new[,i])
+}
+
+head(shooting_df_new)
+str(shooting_df_new)
+
+barplot(shooting_df_new[,'FG%'], names.arg = shooting_df_new[,1],
+        main='Field Goals Percentage per Game', xlab='Name', 
+        ylab='Field Goal Percentage per Game',cex.names = 0.5, las=2, 
+        col = shooting_df_new[,2])
+```
+
+

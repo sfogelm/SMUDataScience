@@ -1,0 +1,110 @@
+---
+title: "DataScienceHW3"
+author: "Spencer Fogelman"
+date: "1/22/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Question 1
+
+```{r}
+# mkdir /Users/spencerfogelman/Desktop/GithubCloningExample
+# cd /Users/spencerfogelman/Desktop/GithubCloningExample
+# git clone https://github.com/awesomedata/awesome-public-datasets.git
+```
+Question 2a
+
+```{r}
+df = read.csv('/Users/spencerfogelman/Desktop/GithubCloningExample/awesome-public-datasets/Datasets/titanic.csv')
+head(df)
+```
+
+Question 2b
+
+```{r}
+males = dim(df[df$Sex == 'male', ])[1]
+paste('The number of males is:', males)
+
+females = dim(df[df$Sex == 'female', ])[1]
+paste('The number of females is:', females)
+
+counts = as.vector(df$Sex)
+barplot(table(counts), main='Frequency of Gender', xlab = 'Gender')
+```
+
+Question 2c
+
+```{r}
+df2 = df[, c('Age', 'Fare', 'Survived')]
+apply(df2, 2, mean, na.rm=TRUE)
+
+```
+
+Question 3
+
+```{r}
+sleep = read.csv('/Users/spencerfogelman/Downloads/sleep_data_01.csv')
+sleepfunction = function(data){
+  median_age = median(sleep$Age, na.rm=TRUE)
+  minimum_duration = min(sleep$Duration, na.rm=TRUE)
+  maximum_duration = max(sleep$Duration, na.rm=TRUE)
+  mean_RSES = mean(sleep$RSES, na.rm=TRUE)
+  sd_RSES = sd(sleep$RSES, na.rm=TRUE)
+  report = data.frame((median_age/5), (mean_RSES/5), (sd_RSES/5), (maximum_duration - minimum_duration))
+  names(report) = c('MedianAge', 'SelfEsteem', 'SE_SD', 'DurationRange')
+  report = signif(report, 2)
+  return(report)
+}
+
+sleepfunction()
+```
+
+Question 4
+
+```{r}
+library(fivethirtyeight)
+data("college_grad_students")
+df = college_grad_students
+# http://fivethirtyeight.com/features/the-economic-guide-to-picking-a-college-major/
+dim(df)
+names(df)
+```
+
+Question 5a
+
+```{r}
+names(df)
+dim(df)[2]
+```
+
+Question 5b
+
+```{r}
+major_count = as.data.frame(table(df['major_category']))
+names(major_count) = c('Major', 'Count')
+```
+
+Question 5c
+
+```{r}
+par(las=2)
+barplot(major_count$Count, names.arg = major_count$Major,
+        main = 'Distribution of Majors', xlab='Major Count', ylab='Major',
+        horiz = TRUE, col='blue')
+```
+
+Question 5d
+
+```{r}
+write.csv(major_count, '/Users/spencerfogelman/Desktop/MajorCounts.csv')
+```
+
+Question 6 
+
+```{r}
+#https://github.com/sfogelm/SMUDataScience
+```
+
