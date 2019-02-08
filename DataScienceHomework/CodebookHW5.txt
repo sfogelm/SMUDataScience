@@ -1,0 +1,8 @@
+This is a description of Homework 5 - Data Wrangling for MSDS 6306: Doing Data Science.
+
+First I created a dataframe called y2016 that contained the popular names of children, their gender, and their count in 2016.
+
+Then I created a dataframe called y2015 that contained the popular names of children, their gender, and their count in 2015.
+
+Finally I created a datacrame called final that was the result of an inner join between y2015 and y2016 on the name column.
+
